@@ -6,9 +6,12 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "lint": "eslint .",
     "test": "jest",
+    "coverage": "jest --coverage"
+  },
+  "jest": {
     "coverageReporters": ["html", "text", "lcov"]
- 
   },
   "keywords": [],
   "author": "",
