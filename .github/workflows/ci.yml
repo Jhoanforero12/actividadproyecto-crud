@@ -1,0 +1,41 @@
+name: Integración Continua
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci:
+    runs-on: windows-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Ejecutar ESLint
+        run: npm run lint
+
+      - name: Ejecutar pruebas
+        run: npm test
+
+      - name: Generar cobertura
+        run: npm run coverage
+
+      - name: Analizar con SonarCloud
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
