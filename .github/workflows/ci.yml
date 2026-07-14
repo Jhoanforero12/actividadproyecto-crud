@@ -23,13 +23,6 @@ jobs:
       - name: Instalar dependencias
         run: npm ci --legacy-peer-deps
 
-      - name: Guardar node_modules
-        uses: actions/upload-artifact@v4
-        with:
-          name: node-modules
-          path: node_modules
-          retention-days: 1
-
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -44,11 +37,8 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: Descargar node_modules
-        uses: actions/download-artifact@v4
-        with:
-          name: node-modules
-          path: node_modules
+      - name: Instalar dependencias
+        run: npm ci --legacy-peer-deps
 
       - name: Ejecutar ESLint
         run: npm run lint
@@ -67,11 +57,8 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: Descargar node_modules
-        uses: actions/download-artifact@v4
-        with:
-          name: node-modules
-          path: node_modules
+      - name: Instalar dependencias
+        run: npm ci --legacy-peer-deps
 
       - name: Ejecutar tests
         run: npm test
@@ -90,11 +77,8 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: Descargar node_modules
-        uses: actions/download-artifact@v4
-        with:
-          name: node-modules
-          path: node_modules
+      - name: Instalar dependencias
+        run: npm ci --legacy-peer-deps
 
       - name: Generar reporte de cobertura
         run: npm run coverage
@@ -126,11 +110,8 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: Descargar node_modules
-        uses: actions/download-artifact@v4
-        with:
-          name: node-modules
-          path: node_modules
+      - name: Instalar dependencias
+        run: npm ci --legacy-peer-deps
 
       - name: Verificar que la app arranca correctamente
         run: |
@@ -145,6 +126,7 @@ jobs:
           mkdir -p dist
           cp -r src dist/
           cp package.json package-lock.json dist/
+
       - name: Subir artefacto de build
         uses: actions/upload-artifact@v4
         with:
@@ -152,7 +134,7 @@ jobs:
           path: dist/
           retention-days: 7
 
-
+  
   deploy:
     name: Deploy (Render)
     runs-on: ubuntu-latest
